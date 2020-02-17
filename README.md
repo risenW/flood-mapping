@@ -1,1 +1,1 @@
-# education4all
+Visualization web application presented by Team DataFinder in the CCHub 2020 Data4Gov visualization hackathon 

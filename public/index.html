@@ -9,13 +9,17 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- Load plotly.js into the DOM -->
+    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
 
     <title>Education for all: Data4Gov Hackathon</title>
 </head>
 
-<body>
+<body style="background-color:darkgrey;">
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#"><h3>Education-4-all</h3></a>
+        <a class="navbar-brand" href="#">
+            <h3>Education-4-all</h3>
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -71,15 +75,10 @@
             </div>
 
             <div class="col-md-8">
-                <div>
-                    <a href="https://plot.ly/~rising.data/1/?share_key=ryzTHIRDVQubFxHL2ZTjWd" target="_blank"
-                        title="Plot 1" style="display: block; text-align: center;"><img
-                            src="https://plot.ly/~rising.data/1.png?share_key=ryzTHIRDVQubFxHL2ZTjWd" alt="Plot 1"
-                            style="max-width: 100%;width: 700px;" width="700"
-                            onerror="this.onerror=null;this.src='https://plot.ly/404.png';" /></a>
-                    <script data-plotly="rising.data:1" sharekey-plotly="ryzTHIRDVQubFxHL2ZTjWd"
-                        src="https://plot.ly/embed.js" async></script>
+                <div id="div2" style="width: 1000px; height: 800px">
+
                 </div>
+            
 
             </div>
         </div>
@@ -94,7 +93,7 @@
                         <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam explicabo
                             adipisci inventore facilis Lorem ipsum dolor sit, amet consectetur adipisicing elit.
                             Exercitationem debitis, porro dolorem, veniam soluta libero dolore voluptas magni ab unde
-                          </p>
+                        </p>
                     </div>
                 </div>
 
@@ -134,21 +133,15 @@
             </div>
 
             <div class="col-md-8">
-                <div>
-                    <a href="https://plot.ly/~rising.data/1/?share_key=ryzTHIRDVQubFxHL2ZTjWd" target="_blank"
-                        title="Plot 1" style="display: block; text-align: center;"><img
-                            src="https://plot.ly/~rising.data/1.png?share_key=ryzTHIRDVQubFxHL2ZTjWd" alt="Plot 1"
-                            style="max-width: 100%;width: 700px;" width="700"
-                            onerror="this.onerror=null;this.src='https://plot.ly/404.png';" /></a>
-                    <script data-plotly="rising.data:1" sharekey-plotly="ryzTHIRDVQubFxHL2ZTjWd"
-                        src="https://plot.ly/embed.js" async></script>
-                </div>
+                <div id="myDiv" style="width: 1000px; height: 800px">
 
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Optional JavaScript -->
+    <script src='js/scripts.js'></script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
