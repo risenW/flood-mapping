@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8' />
+    <title>VizRisk | Mt. Agung Bali</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.1.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.1.0/mapbox-gl.css' rel='stylesheet' />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js'></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <style>
+        #map {
+            position: fixed;
+            width: 80vw;
+        }
+
+        #features {
+            width: 50%;
+            margin-left: 50%;
+            font-family: sans-serif;
+            overflow-y: scroll;
+            background-color: #fafafa;
+        }
+
+        section {
+            height: 100vh;
+            padding: 25px 25px;
+            line-height: 25px;
+            border-bottom: 1px solid #ddd;
+            opacity: 0.25;
+            font-size: 13px;
+        }
+
+        section.active {
+            opacity: 1;
+        }
+
+        section:last-child {
+            border-bottom: none;
+            margin-bottom: 200px;
+        }
+
+        #card {
+            width: 20vw;
+            position: absolute;
+            background: #fff;
+            padding: 0px;
+            padding-bottom: 0px;
+            top: 0px;
+            right: 0px;
+            font-family: 'Open Sans', sans-serif;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.01), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+        }
+    </style>
+    <div class="container" id="start">
+        <iframe src="//nigeria.opendataforafrica.org/resource/embed/mecxitg/first" scrolling="no" frameborder="0"
+            style="height:299px; width:907px;"></iframe>
+    </div>
+
+    <div id='map'></div>
+    <div id='card'>
+        <section id='bali' class='active'>
+            <h3>Nigeria is Home to about 180 million people</h3>
+            <p>Indonesia's tourism industry remains one of the significant components of the Indonesian economy. Tourism
+                numbers have been growing from 5.5 million in 2007 to 7 million in 2010, according to Indonesia
+                Statistics. Moreover, the government has a target of 15 million of tourism numbers in 2017. Indonesia's
+                destination for tourism is a strategic role in Indonesia. Bali is known for its unique culture and
+                beautiful beaches and volcanos. According to data from the Bali Tourism Office, there are 141 tourist
+                destinations spread across eight regencies and one city.</p>
+        </section>
+        <section id='agung'>
+            <h3>Gunung Agung</h3>
+            <p>Behind its popularity of world tourist destinations, lies an active volcano called Mount Agung (Gunung
+                Agung). Gunung Agung is the highest mountain on the island of Bali located in Karangasem district. At
+                the end of 2017, a great mountain release eruption that had an impact on the tourism and economic
+                sector in Bali. With huge numbers of tourists visiting Bali, the existence of the Mount Agung (Gunung
+                Agung) volcano which
+                is one of the active volcano mountains that has the latest eruption activity and the eruption continues
+                to the present. Based on simulation data on the impact of the movement of Mount Agung activities on the
+                Balinese economy made by Bank of Indonesia (BI), there is the potential to lose 1.2 million tourists
+                throughout the fourth quarter of this year. BI also estimates that there will be an economic loss in the
+                amount of Rp2.47 trillion (USD 177 Billions). </p>
+        </section>
+        <section id='vulnerable'>
+            <h3>Vulnerable area of Gunung Agung</h3>
+            <p>As we are trying to get a better understanding of how far the destruction potential in Mount Agung in the
+                future. Using the data from the Indonesia Geospatial Agency, this is vulnerability area caused
+                by the Mount Agung eruption. There are 3 zones of
+                disaster-prone that categorised by its destruction level: Zone III
+                (Red), Zone II (Orange), and Zone I (Yellow).</p>
+        </section>
+        <section id='visual'>
+            <h3>Tourism Object</h3>
+            <p>Here are the locations of mostly visited tourism objects in Karangasem district.
+                <br>
+                There are some tourism objects and their surrounding built up
+                areas that will be potentially affected by the volcano eruption.
+            </p>
+        </section>
+        <section id='evacuate'>
+            <h3>Evacuation Site</h3>
+            <p>When it comes to disaster risk
+                reduction (DRR), especially to reduce the disaster impacts for human being, we need participative action
+                from the stakeholders ranging from local government, local communities, tourism operators, and the
+                tourists themselves. Time and spots are the keys in succeeding evacuation when disaster happens.
+                <br><br>
+                Hence,
+                the isochrone visualization were available to help estimate the time needed to access the nearest
+                evacuation post within 20 minutes.
+
+                <br><br>
+                <strong><i>try to drag the isochrone marker to see the estimated walking travel distance within 20
+                        minutes and
+                        click the tourism destination to highlight the nearest evacuation site</i></strong>
+            </p>
+        </section>
+    </div>
+    <script>
+        mapboxgl.accessToken =
+            'pk.eyJ1IjoiY2l0eXBsYW4tbGFicyIsImEiOiJjajVvY29sczUzOGxpMzNtbm01czV5ejVpIn0.tM76BldWIAHyWdNPSPRGtg';
+
+        var map = new mapboxgl.Map({
+            container: 'map',
+            // style: 'mapbox://styles/cityplan-labs/cjy4buqii0f8p1cojsdq8x6eu', //hosted style id
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [9.0820, 8.6753],
+            zoom: 5,
+            bearing: -45,
+            pitch: 0
+        });
+
+
+        //turf test-start
+
+        var chapters = {
+            'bali': {
+                bearing: 0,
+                center: [9.0820, 8.6753],
+                zoom: 3,
+                pitch: 0
+            },
+            'agung': {
+                duration: 6000,
+                center: [8, 4],
+                bearing: 10,
+                zoom: 9,
+                pitch: 60
+            },
+            'vulnerable': {
+                duration: 6000,
+                bearing: 27,
+                center: [115.507239, -8.343868],
+                zoom: 11,
+                speed: 0.6,
+                pitch: 40
+            },
+            'visual': {
+                duration: 6000,
+                bearing: 45,
+                center: [115.507239, -8.343868],
+                zoom: 11
+            },
+            'evacuate': {
+                duration: 6000,
+                bearing: 0,
+                center: [115.507239, -8.343868],
+                zoom: 11
+            }
+        };
+
+        // On every scroll event, check which element is on screen
+        window.onscroll = function () {
+            var chapterNames = Object.keys(chapters);
+            for (var i = 0; i < chapterNames.length; i++) {
+                var chapterName = chapterNames[i];
+                if (isElementOnScreen(chapterName)) {
+                    setActiveChapter(chapterName);
+                    break;
+                }
+            }
+        };
+
+        map.on('style.load', function () {
+            map.rotateTo(5.0, {
+                duration: 10000
+            });
+
+
+            map.addSource('krb-source', {
+                "type": "geojson",
+                "data": "krb.geojson"
+            });
+
+            map.addLayer({
+                'id': 'krb',
+                'type': 'fill',
+                'source': 'krb-source',
+                "layout": {
+                    "visibility": "none",
+                },
+                'paint': {
+
+                    'fill-color': [
+                        'match',
+                        ['get', 'unsur'],
+                        'KRB I Gunungapi', '#ffff00',
+                        'KRB II Gunungapi', '#ffa500',
+                        'KRB III Gunungapi', '#ff0000',
+                        /* other */
+                        '#ccc'
+                    ],
+                    'fill-opacity': 0.5
+                }
+            });
+
+            map.addSource('wisata-source', {
+                "type": "geojson",
+                "data": "wisata.geojson"
+            });
+
+            map.addLayer({
+                'id': 'wisata',
+                'type': 'symbol',
+                'source': 'wisata-source',
+                "layout": {
+                    "visibility": "none",
+                    "icon-image": "point",
+                    "icon-allow-overlap": true,
+                }
+            });
+
+            map.addSource('evakuasi-source', {
+                "type": "geojson",
+                "data": "evakuasi.geojson"
+            });
+
+            map.addLayer({
+                'id': 'evakuasi',
+                'type': 'symbol',
+                'source': 'evakuasi-source',
+                "layout": {
+                    "visibility": "none",
+                    "icon-image": "evakuasi",
+                    "icon-allow-overlap": true,
+                }
+            });
+
+            map.addSource('contours', {
+                type: 'vector',
+                url: 'mapbox://mapbox.mapbox-terrain-v2'
+            });
+
+            map.addLayer({
+                'id': 'Contours',
+                'type': 'line',
+                'source': 'contours',
+                'source-layer': 'contour',
+                'layout': {
+                    'visibility': 'none',
+                    'line-join': 'round',
+                    'line-cap': 'round'
+                },
+                'paint': {
+                    'line-color': '#bbc3ce',
+                    'line-width': 1
+                }
+            });
+
+            map.addLayer({
+                'id': '3d-buildings',
+                'source': 'composite',
+                'source-layer': 'building',
+                'filter': ['==', 'extrude', 'true'],
+                'type': 'fill-extrusion',
+                'minzoom': 15,
+                'paint': {
+                    'fill-extrusion-color': '#aaa',
+
+                    // use an 'interpolate' expression to add a smooth transition effect to the
+                    // buildings as the user zooms in
+                    'fill-extrusion-height': [
+                        "interpolate", ["linear"],
+                        ["zoom"],
+                        15, 0,
+                        15.05, ["get", "height"]
+                    ],
+                    'fill-extrusion-base': [
+                        "interpolate", ["linear"],
+                        ["zoom"],
+                        15, 0,
+                        15.05, ["get", "min_height"]
+                    ],
+                    'fill-extrusion-opacity': .6
+                }
+            });
+
+            //turf-test
+
+
+
+            map.addSource('nearest-site', {
+                type: 'geojson',
+                data: {
+                    'type': 'FeatureCollection',
+                    'features': []
+                }
+            });
+
+            //turf-end
+
+        });
+
+        var marker = new mapboxgl.Marker({
+            draggable: true
+        }).setLngLat([map.getCenter().lng, map.getCenter().lat])
+
+
+        var activeChapterName = 'bali';
+
+        function setActiveChapter(chapterName) {
+            if (chapterName === activeChapterName) return;
+
+            if (chapterName === "bali") {
+                map.setLayoutProperty('krb', 'visibility', 'none');
+                map.setLayoutProperty('wisata', 'visibility', 'none');
+                map.setLayoutProperty('evakuasi', 'visibility', 'none');
+                removeiso();
+
+                map.rotateTo(45.0, {
+                    duration: 10000
+                });
+            } else if (chapterName === "agung") {
+
+            } else if (chapterName === "vulnerable") {
+                map.setLayoutProperty('krb', 'visibility', 'visible');
+            } else if (chapterName === "visual") {
+                map.setLayoutProperty('wisata', 'visibility', 'visible');
+            } else if (chapterName === "evacuate") {
+                map.setLayoutProperty('evakuasi', 'visibility', 'visible');
+                marker.setLngLat([map.getCenter().lng, map.getCenter().lat])
+                marker.addTo(map);
+                showIso();
+            } else if (chapterName === "evacuate") {
+
+            }
+
+
+
+            map.flyTo(chapters[chapterName]);
+
+            document.getElementById(chapterName).setAttribute('class', 'active');
+            document.getElementById(activeChapterName).setAttribute('class', '');
+
+            activeChapterName = chapterName;
+        }
+
+        // function setActiveChapterBak(chapterName) {
+        //     if (chapterName === activeChapterName) return;
+
+        //     map.flyTo(chapters[chapterName]);
+
+        //     document.getElementById(chapterName).setAttribute('class', 'active');
+        //     document.getElementById(activeChapterName).setAttribute('class', '');
+
+        //     activeChapterName = chapterName;
+        // }
+
+        function isElementOnScreen(id) {
+            var element = document.getElementById(id);
+            var bounds = element.getBoundingClientRect();
+            return bounds.top < window.innerHeight && bounds.bottom > 0;
+        }
+
+        // Create a popup, but don't add it to the map yet.
+        var popup = new mapboxgl.Popup({
+            closeButton: false,
+            closeOnClick: false
+        });
+
+        //ini kalo hover di wisata
+        map.on('mouseenter', 'wisata', function (e) {
+            // Change the cursor style as a UI indicator.
+            map.getCanvas().style.cursor = 'pointer';
+
+            // Populate the popup and set its coordinates 
+            // based on the feature found.
+            popup.setLngLat(e.features[0].geometry.coordinates)
+                .setHTML('<strong>' + 'Tourism Object' + '</strong>' + '<br>' +
+                    e.features[0].properties['name'])
+                .addTo(map);
+
+        });
+
+        map.on('mouseleave', 'wisata', function () {
+            map.getCanvas().style.cursor = '';
+            popup.remove();
+        });
+
+        map.on('mouseenter', 'evakuasi', function (e) {
+            // Change the cursor style as a UI indicator.
+            map.getCanvas().style.cursor = 'pointer';
+
+            // Populate the popup and set its coordinates 
+            // based on the feature found.
+            popup.setLngLat(e.features[0].geometry.coordinates)
+                .setHTML('<strong>' + 'Evacuation Site' + '</strong>' + '<br>' +
+                    e.features[0].properties['nama'])
+                .addTo(map);
+
+        });
+
+        map.on('mouseleave', 'evakuasi', function () {
+            map.getCanvas().style.cursor = '';
+            popup.remove();
+        });
+
+        //isochrone
+
+        var profile = 'walking';
+        var minutes = '20,40,60';
+
+
+        function showIso() {
+            var lngLat = marker.getLngLat();
+
+            var urlBase = 'https://api.mapbox.com/isochrone/v1/mapbox/';
+            var lon = lngLat.lng;
+            var lat = lngLat.lat;
+
+
+            // Make the API call
+            var query = urlBase + profile + '/' + lon + ',' + lat + '?contours_minutes=' + minutes +
+                '&polygons=true&access_token=' + mapboxgl.accessToken;
+
+            $.ajax({
+                method: 'GET',
+                url: query
+            }).done(function (data) {
+                // Set the 'iso' source's data to what's returned by the API query
+                map.getSource('iso').setData(data);
+            })
+
+
+            console.log(lngLat.lng)
+
+            map.addSource('iso', {
+                type: 'geojson',
+                data: {
+                    "type": 'FeatureCollection',
+                    "features": []
+                }
+            });
+
+            map.addLayer({
+                'id': 'isoLayer',
+                'type': 'fill',
+                // Use "iso" as the data source for this layer
+                'source': 'iso',
+                'layout': {},
+                'paint': {
+                    // The fill color for the layer is set to a light purple
+                    'fill-color': '#00B200',
+                    'fill-opacity': 0.3
+                }
+            });
+
+        }
+
+        marker.on('dragend', showIso);
+
+        function removeiso() {
+            marker.remove();
+            map.removeLayer('isoLayer')
+            map.removeSource('iso')
+        }
+
+
+        //turf start
+        //onclick
+        var wisata = { "type": "FeatureCollection", "features": [{ "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.657635, -8.335425] }, "properties": { "cartodb_id": 4, "name": "Amed Beach", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.480083, -8.550526] }, "properties": { "cartodb_id": 1, "name": "Pantai Wates Karangasem", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.61054, -8.501408] }, "properties": { "cartodb_id": 2, "name": "Virgin Beach, Karangasem, Bali", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.508899, -8.53616] }, "properties": { "cartodb_id": 3, "name": "Bias Tugel Beach", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.597351, -8.278681] }, "properties": { "cartodb_id": 5, "name": "Pantai Tulamben", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.513304, -8.529798] }, "properties": { "cartodb_id": 6, "name": "Blue Lagoon Beach", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.617079, -8.483598] }, "properties": { "cartodb_id": 7, "name": "Pantai Sosro", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.630754, -8.47254] }, "properties": { "cartodb_id": 8, "name": "Pantai Jasri", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.509638, -8.530658] }, "properties": { "cartodb_id": 9, "name": "Padang Bai Beach", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.617018, -8.483775] }, "properties": { "cartodb_id": 10, "name": "Charlys Chocolate", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.587292, -8.412347] }, "properties": { "cartodb_id": 11, "name": "Taman Tirtagangga", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.450928, -8.374343] }, "properties": { "cartodb_id": 12, "name": "Besakih Temple", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.43412, -8.423322] }, "properties": { "cartodb_id": 13, "name": "Telaga Waja Rafting Bali", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.62914, -8.462331] }, "properties": { "cartodb_id": 14, "name": "Taman Ujung Resort & Spa", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.555524, -8.499535] }, "properties": { "cartodb_id": 15, "name": "Candi Dasa", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.565148, -8.471739] }, "properties": { "cartodb_id": 16, "name": "Tenganan", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.507411, -8.529898] }, "properties": { "cartodb_id": 17, "name": "Padangbai", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.508899, -8.53616] }, "properties": { "cartodb_id": 18, "name": "Bias Tugel Beach", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.631208, -8.391625] }, "properties": { "cartodb_id": 19, "name": "Pura Penataran Agung Lempuyang", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.568691, -8.318554] }, "properties": { "cartodb_id": 21, "name": "Rumah Pohon", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.617098, -8.48366] }, "properties": { "cartodb_id": 22, "name": "Rumah Coklat", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.610589, -8.505565] }, "properties": { "cartodb_id": 23, "name": "Bukit Asah Desa Bugbug", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.616006, -8.443668] }, "properties": { "cartodb_id": 24, "name": "Puri Agung Karangasem", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.592388, -8.423234] }, "properties": { "cartodb_id": 25, "name": "Rumah Pohon Temega", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.593084, -8.424808] }, "properties": { "cartodb_id": 26, "name": "Houses Tree Hill Lemped", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.683881, -8.350792] }, "properties": { "cartodb_id": 27, "name": "Lipah Beach", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.519167, -8.407778] }, "properties": { "cartodb_id": 28, "name": "Bukit Cemara", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.44203, -8.479304] }, "properties": { "cartodb_id": 29, "name": "Subak Tabola Villa", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.525794, -8.41562] }, "properties": { "cartodb_id": 30, "name": "Bukit Surga", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.516585, -8.46175] }, "properties": { "cartodb_id": 31, "name": "Bukit Putung", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.510225, -8.459305] }, "properties": { "cartodb_id": 32, "name": "Air Terjun Jagasatru, Jagasatru Waterfall", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.533488, -8.463724] }, "properties": { "cartodb_id": 33, "name": "Air Terjun Yeh Labuh", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.459524, -8.373439] }, "properties": { "cartodb_id": 34, "name": "Taman jinja bali", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.463665, -8.369119] }, "properties": { "cartodb_id": 35, "name": "Taman Edelweis Bali", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.467187, -8.366026] }, "properties": { "cartodb_id": 36, "name": "Padang Bunga Kasna", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.525624, -8.456228] }, "properties": { "cartodb_id": 37, "name": "Bukit Pemukuran", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.706779, -8.398539] }, "properties": { "cartodb_id": 38, "name": "mencol temple seraya timur", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.488163, -8.537544] }, "properties": { "cartodb_id": 39, "name": "Ceeng Hill", "description": null, "timestamp": null, "begin": null, "end": null, "altitudemode": null, "tessellate": -1, "extrude": 0, "visibility": -1, "draworder": null, "icon": null } }] }
+        var evakuasi = { "type": "FeatureCollection", "features": [{ "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.516412, -8.505673] }, "properties": { "cartodb_id": 1, "id": 0, "nama": "Pos Evakuasi Akhir" } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.401112, -8.535143] }, "properties": { "cartodb_id": 2, "id": 0, "nama": "Pos Evakuasi Akhir" } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.612053, -8.43935] }, "properties": { "cartodb_id": 3, "id": 0, "nama": "Pos Evakuasi Akhir" } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.412402, -8.353526] }, "properties": { "cartodb_id": 4, "id": 0, "nama": "Pos Pantau - Evakuasi Awal" } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.41775, -8.371751] }, "properties": { "cartodb_id": 5, "id": 0, "nama": "Pos Pantau - Evakuasi Awal" } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.419533, -8.394089] }, "properties": { "cartodb_id": 6, "id": 0, "nama": "Pos Pantau - Evakuasi Awal" } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.421909, -8.410548] }, "properties": { "cartodb_id": 7, "id": 0, "nama": "Pos Pantau - Evakuasi Awal" } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.434388, -8.420541] }, "properties": { "cartodb_id": 8, "id": 0, "nama": "Pos Pantau - Evakuasi Awal" } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.443301, -8.428182] }, "properties": { "cartodb_id": 9, "id": 0, "nama": "Pos Pantau - Evakuasi Awal" } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.491431, -8.447578] }, "properties": { "cartodb_id": 10, "id": 0, "nama": "Pos Pantau - Evakuasi Awal" } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.519358, -8.440525] }, "properties": { "cartodb_id": 11, "id": 0, "nama": "Pos Pantau - Evakuasi Awal" } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.539561, -8.438762] }, "properties": { "cartodb_id": 12, "id": 0, "nama": "Pos Pantau - Evakuasi Awal" } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.559764, -8.440525] }, "properties": { "cartodb_id": 13, "id": 0, "nama": "Pos Pantau - Evakuasi Awal" } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.568677, -8.429358] }, "properties": { "cartodb_id": 14, "id": 0, "nama": "Pos Pantau - Evakuasi Awal" } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.57759, -8.42348] }, "properties": { "cartodb_id": 15, "id": 0, "nama": "Pos Pantau - Evakuasi Awal" } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.579966, -8.379393] }, "properties": { "cartodb_id": 16, "id": 0, "nama": "Pos Pantau - Evakuasi Awal" } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.588879, -8.351763] }, "properties": { "cartodb_id": 17, "id": 0, "nama": "Pos Pantau - Evakuasi Awal" } }, { "type": "Feature", "geometry": { "type": "Point", "coordinates": [115.498304, -8.202957] }, "properties": { "cartodb_id": 18, "id": 0, "nama": "Pos Pantau - Evakuasi Awal" } }] }
+
+        map.on('click', function (e) {
+            var wisataFeatures = map.queryRenderedFeatures(e.point, {
+                layers: ['wisata']
+            });
+            if (!wisataFeatures.length) {
+                return;
+            }
+
+            var wisataFeature = wisataFeatures[0];
+
+            var nearestSite = turf.nearest(wisataFeature, evakuasi);
+
+            if (nearestSite != null) {
+
+                map.getSource('nearest-site').setData({
+                    'type': 'FeatureCollection',
+                    'features': [
+                        nearestSite
+                    ]
+                });
+
+                map.addLayer({
+                    id: 'nearest-Site',
+                    type: 'circle',
+                    source: 'nearest-site',
+                    paint: {
+                        'circle-radius': 19,
+                        'circle-color': '#a32424'
+                    }
+                }, 'evakuasi');
+            }
+        });
+    </script>
+
+</body>
+
+</html>
