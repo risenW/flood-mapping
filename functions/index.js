@@ -27,4 +27,8 @@ app.get('/oyo-farms', (req, res) => {
     res.render('oyo-farms')
 })
 
+app.get('/flood-area', (req, res) => {
+    res.render('flood-area')
+})
+
 exports.app = functions.https.onRequest(app);

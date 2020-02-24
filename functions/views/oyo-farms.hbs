@@ -135,6 +135,14 @@
               141
               tourist
               destinations spread across eight regencies and one city.</p>
+
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <a href="/"><button type="button" class="btn btn-lg btn-primary">Previous</button></a>
+              <button type="button" class="btn btn-lg"></button>
+              <button type="button" class="btn btn-lg"></button>
+              <a href="/flood-area"><button type="button" class="btn btn-lg btn-primary">Next</button></a>
+            </div>
+
           </div>
         </div>
       </div>
@@ -246,7 +254,7 @@
                 react.createElement(keplerGl.KeplerGl, {
                   mapboxApiAccessToken: mapboxToken,
                   id: "map",
-                  width: 1100,
+                  width: 1050,
                   height: windowDimension.height
                 })
               )
