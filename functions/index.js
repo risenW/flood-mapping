@@ -23,5 +23,8 @@ app.get('/', (req, res) => {
     res.render('index')
 })
 
+app.get('/oyo-farms', (req, res) => {
+    res.render('oyo-farms')
+})
 
 exports.app = functions.https.onRequest(app);
