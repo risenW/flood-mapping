@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>
+      Farmlands Affected by Flooding in Ibadan city: Data4Governance Challenge
+    </title>
+
+    <!--Uber Font-->
+    <link
+      rel="stylesheet"
+      href="https://d1a3f4spazzrp4.cloudfront.net/kepler.gl/uber-fonts/4.0.0/superfine.css"
+    />
+
+    <!--MapBox css-->
+    <link
+      href="https://api.tiles.mapbox.com/mapbox-gl-js/v1.1.1/mapbox-gl.css"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link href="css/style.css" rel="stylesheet" />
+
+    <meta property="og:url" content="http://kepler.gl/" />
+    <meta
+      property="og:title"
+      content="Large-scale WebGL-powered Geospatial Data Visualization Tool"
+    />
+    <meta
+      property="og:description"
+      content="Kepler.gl is a powerful web-based geospatial data analysis tool. Built on a high performance rendering engine and designed for large-scale data sets."
+    />
+    <meta property="og:site_name" content="kepler.gl" />
+    <meta
+      property="og:image"
+      content="https://d1a3f4spazzrp4.cloudfront.net/kepler.gl/kepler.gl-meta-tag.png"
+    />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="800" />
+    <meta property="og:image:height" content="800" />
+
+    <!-- twitter card tags  -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@uber" />
+    <meta name="twitter:creator" content="@uber" />
+    <meta
+      name="twitter:title"
+      content="Large-scale WebGL-powered Geospatial Data Visualization Tool"
+    />
+    <meta
+      name="twitter:description"
+      content="Kepler.gl is a powerful web-based geospatial data analysis tool. Built on a high performance rendering engine and designed for large-scale data sets."
+    />
+    <meta
+      name="twitter:image"
+      content="https://d1a3f4spazzrp4.cloudfront.net/kepler.gl/kepler.gl-meta-tag.png"
+    />
+
+    <!-- Load React/Redux -->
+    <script
+      src="https://unpkg.com/react@16.8.4/umd/react.production.min.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@16.8.4/umd/react-dom.production.min.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/redux@3.7.2/dist/redux.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-redux@5.1.1/dist/react-redux.min.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/styled-components@4.1.3/dist/styled-components.min.js"
+      crossorigin
+    ></script>
+
+    <!-- Load Kepler.gl -->
+    <script
+      src="https://unpkg.com/kepler.gl@1.1.13/umd/keplergl.min.js"
+      crossorigin
+    ></script>
+
+    <style type="text/css">
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+    </style>
+
+    <!--MapBox token-->
+    <script>
+      /**
+       * Provide your MapBox Token
+       **/
+      const MAPBOX_TOKEN =
+        "pk.eyJ1IjoicmlzaW5nZGV2ZSIsImEiOiJjazZxemcyN2wwMG1iM2ZsOXViYmQxd2lsIn0.1kpM_uoscs_NJS0TVyhhMA";
+      const WARNING_MESSAGE =
+        "Please Provide a Mapbox Token in order to use Kepler.gl. Edit this file and fill out MAPBOX_TOKEN with your access key";
+    </script>
+
+    <!-- GA: Delete this as you wish, However to pat ourselves on the back, we only track anonymous pageview to understand how many people are using kepler.gl. -->
+    <script>
+      (function(i, s, o, g, r, a, m) {
+        i["GoogleAnalyticsObject"] = r;
+        (i[r] =
+          i[r] ||
+          function() {
+            (i[r].q = i[r].q || []).push(arguments);
+          }),
+          (i[r].l = 1 * new Date());
+        (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m);
+      })(
+        window,
+        document,
+        "script",
+        "https://www.google-analytics.com/analytics.js",
+        "ga"
+      );
+      ga("create", "UA-64694404-19", {
+        storage: "none",
+        clientId: localStorage.getItem("ga:clientId")
+      });
+      ga(function(tracker) {
+        localStorage.setItem("ga:clientId", tracker.get("clientId"));
+      });
+      ga("set", "checkProtocolTask", null); // Disable file protocol checking.
+      ga("set", "checkStorageTask", null); // Disable cookie storage checking.
+      ga("set", "historyImportTask", null); // Disable history checking (requires reading from cookies).
+      ga("set", "page", "keplergl-html");
+      ga("send", "pageview");
+    </script>
+  </head>
+
+  <body>
+    <nav
+      class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top mx-auto text-center"
+    >
+      <a class="navbar-brand" href="/">
+        <img style="width: 110px; height:55px;" src="images/logo.png" />
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="/"
+              >Home <span class="sr-only">(current)</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/team">Team</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/risenW/flood-mapping">Github</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="row">
+      <div class="col-md-5">
+        <div
+          class="card"
+          style="overflow-y: scroll; height:600px; width: auto;"
+        >
+
+        <div>
+            <a href="https://plot.ly/~Olawale0254/9/?share_key=rmyX7T1IoYhfkLi1zsSWze" target="_blank" title="Flood affected area" style="display: block; text-align: center;"><img src="https://plot.ly/~Olawale0254/9.png?share_key=rmyX7T1IoYhfkLi1zsSWze" alt="Flood affected area" style="max-width: 100%;width: 100%;"  width="100%" height="270px" onerror="this.onerror=null;this.src='https://plot.ly/404.png';" /></a>
+            <script data-plotly="Olawale0254:9" sharekey-plotly="rmyX7T1IoYhfkLi1zsSWze" src="https://plot.ly/embed.js" async></script>
+        </div>
+
+        
+          <!-- <img src="images/agric.jpg" class="card-img-top" alt="" /> -->
+          <div class="card-body">
+            <h1 class="card-title" style="font-size:x-large;">
+              <b>Mapping Predicted Flooding to Farmlands in 5 Years</b>
+            </h1>
+            <p style="font-size: large;" class="card-text">
+              There are 4014 farms in the Oyo state of Nigeria,
+              and out of these, 876 are in Ibadan. We show possible areas and farmlands that will be 
+              affected by flooding in the map to the right. The map is divided into two sections:
+              <ul>
+                  <li>Section 1: Shows the areas that will be flooded in 5 years before any form of 
+                      flood intervention/control is done.
+                  </li>
+                  <li>
+                      Section 2: Shows the areas and farmlands that will be affected after flood control and intervention.
+                  </li>
+              </ul>
+            </p>
+
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <a href="/oyo-farms"
+                ><button type="button" class="btn btn-primary">
+                  Previous
+                </button></a
+              >
+              <button type="button" class="btn btn-lg"></button>
+              <button type="button" class="btn btn-lg"></button>
+              <a href="/flood-area"
+                ><button type="button" class="btn btn-primary">Next</button></a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-7">
+        <div
+          class="tableauPlaceholder"
+          id="viz1582668265474"
+          style="position: relative"
+        >
+          <noscript
+            ><a href="#"
+              ><img
+                alt=" "
+                src="https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;fl&#47;floodmapping&#47;Story1&#47;1_rss.png"
+                style="border: none"/></a></noscript
+          ><object class="tableauViz" style="display:none;">
+            <param name="host_url" value="https%3A%2F%2Fpublic.tableau.com%2F"/>
+            <param name="embed_code_version" value="3"/>
+            <param name="site_root" value=""/>
+            <param name="name" value="floodmapping&#47;Story1"/>
+            <param name="tabs" value="no"/>
+            <param name="toolbar" value="yes"/>
+            <param
+              name="static_image"
+              value="https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;fl&#47;floodmapping&#47;Story1&#47;1.png"/>
+            <param name="animate_transition" value="yes"/>
+            <param name="display_static_image" value="yes"/>
+            <param name="display_spinner" value="yes"/>
+            <param name="display_overlay" value="yes"/>
+            <param name="display_count" value="yes"/>
+            <param name="filter" value="publish=yes"
+          /></object>
+        </div>
+        <script type="text/javascript">
+          var divElement = document.getElementById("viz1582668265474");
+          var vizElement = divElement.getElementsByTagName("object")[0];
+          vizElement.style.width = "100%";
+          vizElement.style.height = "100%";
+          var scriptElement = document.createElement("script");
+          scriptElement.src =
+            "https://public.tableau.com/javascripts/api/viz_v1.js";
+          vizElement.parentNode.insertBefore(scriptElement, vizElement);
+        </script>
+      </div>
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+    <script src="js/scripts.js"></script>
+
+    <script>
+      (function($) {
+        $.fn.counter = function() {
+          const $this = $(this),
+            numberFrom = parseInt($this.attr("data-from")),
+            numberTo = parseInt($this.attr("data-to")),
+            delta = numberTo - numberFrom,
+            deltaPositive = delta > 0 ? true : false,
+            time = parseInt($this.attr("data-time")),
+            changeTime = 10;
+
+          let currentNumber = numberFrom,
+            value = (delta * changeTime) / time;
+          var interval1;
+          const changeNumber = () => {
+            currentNumber += value;
+            //checks if currentNumber reached numberTo
+            (deltaPositive && currentNumber >= numberTo) ||
+            (!deltaPositive && currentNumber <= numberTo)
+              ? (currentNumber = numberTo)
+              : currentNumber;
+            this.text(parseInt(currentNumber));
+            currentNumber == numberTo
+              ? clearInterval(interval1)
+              : currentNumber;
+          };
+
+          interval1 = setInterval(changeNumber, changeTime);
+        };
+      })(jQuery);
+
+      $(document).ready(function() {
+        $(".count-up").counter();
+        $(".count1").counter();
+        $(".count2").counter();
+        $(".count3").counter();
+        $(".count4").counter();
+
+        new WOW().init();
+
+        setTimeout(function() {
+          $(".count5").counter();
+        }, 3000);
+      });
+    </script>
+  </body>
+</html>

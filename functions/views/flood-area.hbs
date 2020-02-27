@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>Farmlands in Oyo state: Data4Governance Challenge</title>
+  <title>Affected Farmlands in Ibadan: Data4Governance Challenge</title>
 
   <!--Uber Font-->
   <link rel="stylesheet" href="https://d1a3f4spazzrp4.cloudfront.net/kepler.gl/uber-fonts/4.0.0/superfine.css">
@@ -15,7 +15,7 @@
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link href="css/style.css" rel="stylesheet" />
 
-  <!-- -— facebook open graph tags -- -->
+  <!-- -— facebook open graph tags -->
   <meta property="og:url" content="http://kepler.gl/" />
   <meta property="og:title" content="Large-scale WebGL-powered Geospatial Data Visualization Tool" />
   <meta property="og:description"
@@ -90,7 +90,7 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top mx-auto text-center">
       <a class="navbar-brand" href="/">
-        <img style="width: 120px; height:55px;" src='images/logo.png' />
+        <img style="width: 110px; height:55px;" src='images/logo.png' />
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
         aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -102,48 +102,118 @@
             <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/">Flood</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" href="/team">Team</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/github">Github</a>
+            <a class="nav-link" href="https://github.com/risenW/flood-mapping">Github</a>
           </li>
         </ul>
       </div>
     </nav>
 
     <div class="row">
-      <div class="col-md-2">
-        <div class="card" style="">
-          <img src="images/agric.jpg" class="card-img-top" alt="">
+      <div class="col-md-4">
+        <div class="card" style="overflow-y: scroll; height:600px; width: auto;">
+          {{!-- <img src="images/agric.jpg" class="card-img-top" alt=""> --}}
           <div class="card-body text-center">
             <h1 class="card-title" style="font-size:x-large;">
               <b>Number of affected farmlands before intervention</b>
             </h1>
-            <div style="margin-bottom: 120px; color: rgb(231, 35, 35);" class="count-up h1 text-center" data-from="0" data-to="361" data-time="1000">
+            <div style="margin-bottom: 20px; color: rgb(231, 35, 35);" class="count-up h1 text-center" data-from="0"
+              data-to="357" data-time="1000">
               0
             </div>
 
             <h1 class="card-title" style="font-size:x-large;">
-          <b>Number of affected farmlands after intervention</b>
-          </h1>
-          <div style="color: rgb(223, 223, 27);" class="count4 h1 text-center" data-from="0" data-to="64" data-time="1000">
-            0
-          </div>
+              <b>Number of affected farmlands after intervention</b>
+            </h1>
+            <div style="color: rgb(223, 223, 27);" class="count4 h1 text-center" data-from="0" data-to="62"
+              data-time="1000">
+              0
+            </div>
+
+            {{!-- plotly fig 1 --}}
+            <div>
+              <a href="https://plot.ly/~Olawale0254/9/" target="_blank" title="Flood affected area"
+                style="display: block; text-align: center;"><img src="https://plot.ly/~Olawale0254/9.png"
+                  alt="Flood affected area" style="max-width: 100%;width: 100%;" width="100%"
+                  onerror="this.onerror=null;this.src='https://plot.ly/404.png';" /></a>
+              <script data-plotly="Olawale0254:9" src="https://plot.ly/embed.js" async></script>
+            </div>
+            {{!-- end of plotly fig 1 --}}
+
+            {{!-- plotly fig 2 --}}
+
+            <div>
+              <a href="https://plot.ly/~Olawale0254/16/?share_key=tqwJs1xZ9zar0zV2LiJSAc" target="_blank"
+                title="LGAs and the numbers of affected farms before intervention"
+                style="display: block; text-align: center;"><img
+                  src="https://plot.ly/~Olawale0254/16.png?share_key=tqwJs1xZ9zar0zV2LiJSAc"
+                  alt="LGAs and the numbers of affected farms before intervention" style="max-width: 100%;width: 600px;"
+                  width="600" onerror="this.onerror=null;this.src='https://plot.ly/404.png';" /></a>
+              <script data-plotly="Olawale0254:16" sharekey-plotly="tqwJs1xZ9zar0zV2LiJSAc"
+                src="https://plot.ly/embed.js" async></script>
+            </div>
 
 
-            <div style='padding: 10px;' class="btn-group" role="group" aria-label="Basic example">
-              <a href="/oyo-farms"><button type="button" class="btn btn-lg btn-primary">Previous</button></a>
+            {{!-- end of plotly fig 2 --}}
+
+            {{!-- plotly fig 3 --}}
+
+            <div>
+              <a href="https://plot.ly/~Olawale0254/18/?share_key=5PurG8V3V0jtDCwlhwH3fz" target="_blank"
+                title="LGAs and the numbers of affected farms after intervention"
+                style="display: block; text-align: center;"><img
+                  src="https://plot.ly/~Olawale0254/18.png?share_key=5PurG8V3V0jtDCwlhwH3fz"
+                  alt="LGAs and the numbers of affected farms after intervention" style="max-width: 100%;width: 600px;"
+                  width="600" onerror="this.onerror=null;this.src='https://plot.ly/404.png';" /></a>
+              <script data-plotly="Olawale0254:18" sharekey-plotly="5PurG8V3V0jtDCwlhwH3fz"
+                src="https://plot.ly/embed.js" async></script>
+            </div>
+            {{!-- end of plotly fig 3 --}}
+
+            {{!-- plotly fig 4 --}}
+            <div>
+              <a href="https://plot.ly/~Olawale0254/22/?share_key=I3Z4L3VnYPQLWN72mMbyeD" target="_blank"
+                title="Type of farms and the number of affected area before intervention"
+                style="display: block; text-align: center;"><img
+                  src="https://plot.ly/~Olawale0254/22.png?share_key=I3Z4L3VnYPQLWN72mMbyeD"
+                  alt="Type of farms and the number of affected area before intervention"
+                  style="max-width: 100%;width: 600px;" width="600"
+                  onerror="this.onerror=null;this.src='https://plot.ly/404.png';" /></a>
+              <script data-plotly="Olawale0254:22" sharekey-plotly="I3Z4L3VnYPQLWN72mMbyeD"
+                src="https://plot.ly/embed.js" async></script>
+            </div>
+
+            {{!-- end of plotly fig 4 --}}
+
+            {{!-- plotly fig 5--}}
+            <div>
+              <a href="https://plot.ly/~Olawale0254/20/?share_key=jAeiDALB39SXBNXWF3lgMD" target="_blank"
+                title="Type of farms and the number of affected area after intervention"
+                style="display: block; text-align: center;"><img
+                  src="https://plot.ly/~Olawale0254/20.png?share_key=jAeiDALB39SXBNXWF3lgMD"
+                  alt="Type of farms and the number of affected area after intervention"
+                  style="max-width: 100%;width: 600px;" width="600"
+                  onerror="this.onerror=null;this.src='https://plot.ly/404.png';" /></a>
+              <script data-plotly="Olawale0254:20" sharekey-plotly="jAeiDALB39SXBNXWF3lgMD"
+                src="https://plot.ly/embed.js" async></script>
+            </div>
+
+            {{!-- end of plotly fig 5 --}}
+
+
+
+            <div style='' class="btn-group" role="group" aria-label="Basic example">
+              <a href="/flood-mapping"><button type="button" class="btn btn-primary">Previous</button></a>
               <button type="button" class="btn btn-lg"></button>
-              <a href="/flood-area"><button type="button" class="btn btn-lg btn-primary">Next</button></a>
+              <a href="/summary"><button type="button" class="btn btn-primary">Next</button></a>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="col-md-10">
+      <div class="col-md-8">
         <div id="app">
           <!-- Kepler.gl map will be placed here-->
         </div>
@@ -248,7 +318,7 @@
                 react.createElement(keplerGl.KeplerGl, {
                   mapboxApiAccessToken: mapboxToken,
                   id: "map",
-                  width: 1250,
+                  width: 1000,
                   height: windowDimension.height
                 })
               )

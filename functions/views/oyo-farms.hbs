@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>Farmlands Affected by Flooding in Ibadan city: Data4Governance Challenge</title>
+  <title>Farmlands in Oyo: Data4Governance Challenge</title>
 
   <!--Uber Font-->
   <link rel="stylesheet" href="https://d1a3f4spazzrp4.cloudfront.net/kepler.gl/uber-fonts/4.0.0/superfine.css">
@@ -85,12 +85,10 @@
   </script>
 </head>
 
-<body>
-
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top mx-auto text-center">
       <a class="navbar-brand" href="/">
-        <img style="width: 120px; height:55px;" src='images/logo.png' />
+        <img style="width: 110px; height:55px;" src='images/logo.png' />
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
         aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -101,14 +99,12 @@
           <li class="nav-item active">
             <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/">Flood</a>
-          </li>
+       
           <li class="nav-item">
             <a class="nav-link" href="/team">Team</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/github">Github</a>
+            <a class="nav-link" href="https://github.com/risenW/flood-mapping">Github</a>
           </li>
         </ul>
       </div>
@@ -116,35 +112,22 @@
 
     <div class="row">
       <div class="col-md-3">
-        <div class="card" style="">
+        <div class="card" style="overflow-y: scroll; height:600px; width: 100%">
           <img src="images/agric.jpg" class="card-img-top" alt="">
-          <div class="card-body text-center">
-            <h1 class="card-title" style="font-size:x-large;"><b>Nigeria is Home to 180 million people</b>
+          <div class="card-body">
+            <h1 class="card-title" style="font-size:x-large;"><b>Location of farmlands in Oyo state</b>
             </h1>
-            <p style="font-size: large;" class="card-text">Indonesia's tourism industry remains one of the
-              significant components of
-              the Indonesian economy.
-              Tourism
-              numbers have been growing from 5.5 million in 2007 to 7 million in 2010, according to
-              Indonesia
-              Statistics. Moreover, the government has a target of 15 million of tourism numbers in 2017.
-              Indonesia's
-              destination for tourism is a strategic role in Indonesia. Bali is known for its unique
-              culture and
-              beautiful beaches and volcanos. According to data from the Bali Tourism Office, there are
-              141
-              tourist
-              destinations spread across eight regencies and one city.</p>
+            <p style="font-size: large;" class="card-text">There are approximately 4014 farms in the Oyo state of Nigeria, and out of these, 876 are in Ibadan our case study area.</p>
 
             <div class="btn-group" role="group" aria-label="Basic example">
-              <a href="/"><button type="button" class="btn btn-lg btn-primary">Previous</button></a>
-              <button type="button" class="btn btn-lg"></button>
-              <button type="button" class="btn btn-lg"></button>
-              <a href="/flood-area"><button type="button" class="btn btn-lg btn-primary">Next</button></a>
+              <a href="/ibadan-overview"><button type="button" class="btn btn-primary">Previous</button></a>
+              <button type="button" class="btn"></button>
+              <button type="button" class="btn"></button>
+              <a href="/flood-mapping"><button type="button" class="btn btn-primary">Next</button></a>
             </div>
 
           </div>
-        </div>
+      </div>
       </div>
 
       <div class="col-md-9">
@@ -254,7 +237,7 @@
                 react.createElement(keplerGl.KeplerGl, {
                   mapboxApiAccessToken: mapboxToken,
                   id: "map",
-                  width: 1050,
+                  width: 1000,
                   height: windowDimension.height
                 })
               )

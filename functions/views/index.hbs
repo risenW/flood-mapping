@@ -3,19 +3,19 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Finders : Data4Gov Challenge 2020</title>
+    <title>Findars Solution : Data4Gov Challenge 2020</title>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
     <script src="https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.js"></script>
     <link href="https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
     <link href="css/style.css" rel="stylesheet" />
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-fixed-top navbar-dark bg-dark">
         <a class="navbar-brand" href="#">
-        <img style="width: 120px; height:55px;" src='images/logo.png' />
+            <img style="width: 110px; height:55px;" src="images/logo.png" />
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
             aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -26,84 +26,121 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Flood</a>
-                </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="/team">Team</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/github">Github</a>
+                    <a class="nav-link" href="https://github.com/risenW/flood-mapping">Github</a>
                 </li>
             </ul>
         </div>
     </nav>
 
-    <div class="container text-center" style="margin-top:10px;">
+
+    <div class="container" style="margin-top:20px;">
         <div class="row">
-            <div class="col-md-8">
-                <iframe src="//nigeria.opendataforafrica.org/resource/embed/mecxitg/first" scrolling="no"
-                    frameborder="0" style="height:240px; width:740px;"></iframe>
+            <div class="col-md-7">
 
                 <div class="row">
-                    <div class="col-md-5">
-                        <iframe src="//nigeria.opendataforafrica.org/resource/embed/mecxitg/third" scrolling="no"
-                            frameborder="0" style="height:350px;"></iframe>
-
-                    </div>
-                    <div class="col-md-5">
-                        <iframe src="//nigeria.opendataforafrica.org/resource/embed/iacdzsd/third" scrolling="no"
-                            frameborder="0" style="height:350px;"></iframe>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card" style="">
-                    <img src="images/agric.jpg" class="card-img-top" alt="">
-                    <div class="card-body text-center">
-                        <h1 class="card-title" style="font-size:x-large;"><b>Nigeria is Home to 180 million people</b>
+                    <div class="col-md-10">
+                        <h1 style="font-size:3em; margin-top: 10px;">
+                            <b>The Impact of Flood on Agriculture</b>
                         </h1>
-                        <p style="font-size: large;" class="card-text">Indonesia's tourism industry remains one of the
-                            significant components of
-                            the Indonesian economy.
-                            Tourism
-                            numbers have been growing from 5.5 million in 2007 to 7 million in 2010, according to
-                            Indonesia
-                            Statistics. Moreover, the government has a target of 15 million of tourism numbers in 2017.
-                            Indonesia's
-                            destination for tourism is a strategic role in Indonesia. Bali is known for its unique
-                            culture and
-                            beautiful beaches and volcanos. According to data from the Bali Tourism Office, there are
-                            141
-                            tourist
-                            destinations spread across eight regencies and one city.</p>
+                        <h2>A case study of the city of Ibadan</h2>
+                        <hr>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 30px;">
+                    <div class="col-md-8">
+                        <h3 class="text-info">Project Objectives</h3>
+                        <br>
+                        <p>Our main objectives in this data4gov visualization challenge are:
+                            <ol>
+                                <li>To identify and show farmlands in the state of Oyo with a focus on Ibadan city</li>
+                                <li>To show areas that are likely to be affected by flood in 5 years before and
+                                    intervention</li>
+                            </ol>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <h3 class="text-info">Order of pages</h3>
+                        <br>
+                        <p>
+                            <ol>
+                                <li><a href="/ibadan-overview">Page 1:</a> An overview of Oyo and the city of Ibadan
+                                </li>
+                                <li><a href="/oyo-farms">Page 2:</a> Location of farmlands in Ibadan</li>
+                                <li><a href="/flood-mapping">Page 3:</a> 5 year Flood mapping on farm lands in Ibadan
+                                </li>
+                                <li><a href="/flood-area">Page 4:</a> Analysis of affected farmlands</li>
+                                <li><a href="/summary">Page 5:</a> Summary of Findings and Conclusion</li>
+
+                            </ol>
+                            Useful links:
+                            <ul>
+                                <li><a href="https://medium.com/@risingdeveloper/data-visualization-of-the-impact-of-flood-and-its-effect-on-the-agricultural-sector-in-ibadan-12246e90751c?source=friends_link&sk=b4b9dc927a6f2d9283a8e4bef6550176">Blog post describing this project</a></li>
+                                <li><a href="https://github.com/risenW/flood-mapping">Source code on Github</a></li>
+                                <li><a
+                                        href="https://cchubnigeria.com/data4governance-improving-accountability-and-service-delivery/">Competition
+                                        website</a></li>
+                            </ul>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-5" style="margin-top: 20px;">
+                <div class="card" style="height: 400px;">
+                    <img src="images/agric_map.jpg" class="card-img-top" alt="" />
+                    <div class="card-body">
+                        <p class="card-text">
+                            Source: Wikimedia Commons, the free media repository <a
+                                href="https://commons.wikimedia.org/w/index.php?curid=465234">Link</a>
+                        </p>
                     </div>
                 </div>
             </div>
-        </div>
-        <h1 style="font-size:4em; margin-top: 100px;;"><b>The Impact of Flood on Agriculture</b> </h1>
-
-        <div class="row" style="margin-top: 20px;">
-            <div class="col-md-12">
-                <iframe
-                    src='https://players.brightcove.net/665003303001/4k5gFJHRe_default/index.html?videoId=5847908401001&usrPersonaAds=0'
-                    allowfullscreen frameborder=0 style="width:100%; height:500px;"></iframe>
-
-            </div>
-
         </div>
     </div>
 
-    <div class="container" style="margin-top: 100px;margin-bottom: 100px;">
+    <div class="container" style="margin-top:100px;">
+        <div class="row text-center">
+
+            <div class="col-md-12">
+                <h1 style="font-size:2.5em;">
+                    <b>Overview of Agricultural Activities in Nigeria</b>
+                </h1>
+                <hr>
+            </div>
+
+            <div class="col-md-12 text-center">
+                <iframe src="//nigeria.opendataforafrica.org/resource/embed/mecxitg/first" scrolling="no"
+                    frameborder="0" style="height:240px; width:100%;"></iframe>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <iframe src="//nigeria.opendataforafrica.org/resource/embed/mecxitg/third" scrolling="no"
+                            frameborder="0" style="height:350px; width:400px;"></iframe>
+                    </div>
+                    <div class="col-md-6">
+                        <iframe src="//nigeria.opendataforafrica.org/resource/embed/iacdzsd/third" scrolling="no"
+                            frameborder="0" style="height:350px;  width:400px;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="margin-top: 60px;margin-bottom: 100px;">
         <div class="row text-center">
             <div class="col-md-12">
-                <a href="/oyo-farms"><button class="btn btn-lg btn-primary">Next</button></a>
+                <a href="/ibadan-overview"><button class="btn btn-lg btn-primary">Next</button></a>
             </div>
         </div>
     </div>
-
-
-
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"

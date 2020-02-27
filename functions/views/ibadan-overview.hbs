@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Overview of Ibadan City</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.8.0/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v1.8.0/mapbox-gl.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <nav style="position: fixed; width:70%" class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top">
+        <a class="navbar-brand" href="/">
+            <img style="width: 110px; height:55px;" src="images/logo.png" />
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/team">Team</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://github.com/risenW/flood-mapping">Github</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <style>
+        #map {
+            position: fixed;
+            width: 70%;
+            margin-top: 5.2%;
+        }
+
+        #features {
+            width: 30%;
+            margin-left: 70%;
+            font-family: sans-serif;
+            overflow-y: scroll;
+            background-color: #fafafa;
+        }
+
+        section {
+            padding: 25px 50px;
+            line-height: 25px;
+            border-bottom: 1px solid #ddd;
+            opacity: 0.25;
+            font-size: 13px;
+        }
+
+        section.active {
+            opacity: 1;
+        }
+
+        section:last-child {
+            border-bottom: none;
+            margin-bottom: 200px;
+        }
+    </style>
+
+    <div id="map"></div>
+    <div id="features">
+        <section id="nigeria" class="active">
+            <h3> Nigeria is home to 206.14 million people</h3>
+            <p>
+                A General Household Survey of the World Bank shows that the agriculture sector is the largest employer
+                of labour and income-generating activity in Nigeria. While this commendable, climate change (change in
+                temp, increasing rainfall leading to flooding e.t.c) in the next coming years is seen as great threat to
+                the industry if there are no interventions by relevant interventions are not taken into consideration
+            </p>
+        </section>
+        <section id="oyo">
+            <h3>Oyo State of Nigeria</h3>
+            <p>
+                Oyo is an inland state in south-western Nigeria, mainly inhabited by the Yoruba ethnic group. The state
+                has some tropical rain forest in the south around Ibadan the capital. Oyo’s economy is chiefly based on
+                Agriculture and handicrafts, some of which includes yams, cassava, beans, cotton spinning,
+                leatherworking e.t.c
+
+            </p>
+
+
+        </section>
+        <section id="ibadan">
+            <h3>The great city of Ibadan</h3>
+            <p>
+                Ibadan is the capital and most populous city of Oyo State, Nigeria with Its population of 2,550,593
+                according to 2006 census results, includes 11 local government areas. It is the third-most populous city
+                in Nigeria and the largest city in the country by geographical area.
+                <br>
+                The economic activities of Ibadan include agriculture, commerce, handicrafts, manufacturing, and service
+                industries. Although the city’s farming population has declined, it is still large for an urban area.
+                Many cultivators are part-time farmers who augment their earnings with other work.
+                <br>
+                The city of Ibadan is naturally drained by four rivers with many tributaries: Ona River in the North and
+                West; Ogbere River towards the East; Ogunpa River flowing through the city and Kudeti River in the
+                Central part of the metropolis. Ogunpa River, a third-order stream with a channel length of 12.76 km and
+                a catchment area of 54.92 km2. Lake Eleyele is located at the northwestern part of the city, while the
+                Osun River and the Asejire Lake bound the city to the east.
+            </p>
+
+            <div style='padding: 10px;' class="btn-group" role="group" aria-label="Basic example">
+                <a href="/"><button type="button" class="btn btn-lg btn-primary">Previous</button></a>
+                <button type="button" class="btn btn-lg"></button>
+                <a href="/oyo-farms"><button type="button" class="btn btn-lg btn-primary">Next</button></a>
+            </div>
+
+        </section>
+        <section id="woolwich">
+            {{!-- <h3>Woolwich Arsenal</h3>
+            <p>
+                While investigating at Woolwich Arsenal Sherlock learns that West
+                did not have the three keys&mdash;door, office, and
+                safe&mdash;necessary to steal the papers. The train station clerk
+                mentions seeing an agitated West boarding the 8:15 train to London
+                Bridge. Sherlock suspects West of following someone who had access
+                to the Woolwich chief's keyring with all three keys.
+            </p> --}}
+        </section>
+        <section id="gloucester">
+            {{!-- <h3>Gloucester Road</h3>
+            <p>
+                Mycroft responds to Sherlock's telegram and mentions several spies.
+                Hugo Oberstein of 13 Caulfield Gardens catches Sherlock's eye. He
+                heads to the nearby Gloucester Road station to investigate and
+                learns that the windows of Caulfield Gardens open over rail tracks
+                where trains stop frequently.
+            </p>
+        </section> --}}
+            <section id="caulfield-gardens">
+                {{!-- <h3>13 Caulfield Gardens</h3>
+            <p>
+                Holmes deduces that the murderer placed West atop a stopped train at
+                Caulfield Gardens. The train traveled to ibadan Station before
+                West's body finally toppled off. Backtracking to the criminal's
+                apartment, Holmes finds a series of classified ads from
+                <em>The Daily Telegraph</em> stashed away. All are under the name
+                Pierrot: "Monday night after nine. Two taps. Only ourselves. Do not
+                be so suspicious. Payment in hard cash when goods delivered."
+            </p> --}}
+            </section>
+            <section id="telegraph">
+                {{!-- <h3>The Daily Telegraph</h3>
+            <p>
+                Holmes and Watson head to The Daily Telegraph and place an ad to
+                draw out the criminal. It reads: "To-night. Same hour. Same place.
+                Two taps. Most vitally important. Your own safety at stake.
+                Pierrot." The trap works and Holmes catches the criminal: Colonel
+                Valentine Walter, the brother of Woolwich Arsenal's chief. He
+                confesses to working for Hugo Oberstein to obtain the submarine
+                plans in order to pay off his debts.
+            </p> --}}
+            </section>
+            <section id="charing-cross">
+                {{!-- <h3>Charing Cross Hotel</h3>
+            <p>
+                Walter writes to Oberstein and convinces him to meet in the smoking
+                room of the Charing Cross Hotel where he promises additional plans
+                for the submarine in exchange for money. The plan works and Holmes
+                and Watson catch both criminals.
+            </p>
+            <small id="citation">
+                Adapted from
+                <a href="http://www.gutenberg.org/files/2346/2346-h/2346-h.htm">Project Gutenberg</a>
+            </small> --}}
+            </section>
+    </div>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoibGVrZW9uaWx1ZGUiLCJhIjoiY2s2czg4dWxhMGN3eTNmcGdycnFvOXAxaCJ9.TB5iVpbX28O9qMkZGw8sJQ';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/lekeonilude/ck729nj7b077q1ipedtujmfdd',
+            center: [4.1772637, 9.006789],
+            zoom: 5,
+            bearing: 0,
+            pitch: 0
+        });
+
+        var chapters = {
+            'nigeria': {
+                bearing: 0,
+                center: [4.1772637, 9.006789],
+                zoom: 5,
+                pitch: 0
+            },
+            'oyo': {
+                duration: 6000,
+                center: [2.5016184, 8.132669],
+                bearing: 5,
+                zoom: 6.5,
+                pitch: 0
+            },
+            'ibadan': {
+                duration: 7000,
+                center: [3.7640936, 7.4207929],
+                bearing: 0,
+                zoom: 9,
+                pitch: 0
+            }
+        };
+
+        // On every scroll event, check which element is on screen
+        window.onscroll = function () {
+            var chapterNames = Object.keys(chapters);
+            for (var i = 0; i < chapterNames.length; i++) {
+                var chapterName = chapterNames[i];
+                if (isElementOnScreen(chapterName)) {
+                    setActiveChapter(chapterName);
+                    break;
+                }
+            }
+        };
+
+        var activeChapterName = 'nigeria';
+        function setActiveChapter(chapterName) {
+            if (chapterName === activeChapterName) return;
+
+            map.flyTo(chapters[chapterName]);
+
+            document.getElementById(chapterName).setAttribute('class', 'active');
+            document.getElementById(activeChapterName).setAttribute('class', '');
+
+            activeChapterName = chapterName;
+        }
+
+        function isElementOnScreen(id) {
+            var element = document.getElementById(id);
+            var bounds = element.getBoundingClientRect();
+            return bounds.top < window.innerHeight && bounds.bottom > 0;
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
