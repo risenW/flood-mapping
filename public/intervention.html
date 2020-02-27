@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="mapbox/mapbox-gl.css">
+    <link rel="stylesheet" href="css/qgis2web.css">
+    <link rel="stylesheet" href="css/MarkerCluster.css">
+    <link rel="stylesheet" href="css/MarkerCluster.Default.css">
+    <link rel="stylesheet" href="css/leaflet-search.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+
+    <style>
+        #map {
+            width: 100%;
+            height: 100%;
+            margin-top: 10px;
+        }
+    </style>
+    <title></title>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-fixed-top navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">
+            <img style="width: 110px; height:55px;" src="images/logo.png" />
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/team">Team</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://github.com/risenW/flood-mapping">Github</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- <div class="container"> -->
+        <div class="row">
+
+            <div class="col-md-4">
+                <div class="card" style="overflow-y: scroll; height:600px; width: 100%">
+                    <img src="images/agric.jpg" class="card-img-top" alt="">
+                    <div class="card-body">
+                        <h1 class="card-title" style="font-size:x-large;"><b>Proposed Intervention Areas</b>
+                        </h1>
+                        <p style="font-size: large;" class="card-text">
+                        In the chart to the right, we show some proposed intervention that can be carried out
+                        by the Government that will help reduce the number of affected farmlands. In the map, we show the following:
+                        <ul>
+                            <li>Proposed drainage systems to be constructed</li>
+                            <li>Proposed junctions</li>
+                            <li>Proposed dikes</li>
+                            <li>Proposed high priority channels</li>
+                        </ul>
+                        
+                        </p>
+
+
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <a href="/flood-area"><button type="button"
+                                    class="btn btn-primary">Previous</button></a>
+                            <button type="button" class="btn"></button>
+                            <button type="button" class="btn"></button>
+                            <a href="/summary"><button type="button" class="btn btn-primary">Next</button></a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div id="map">
+                    <nav id="menu"></nav>
+                </div>
+                <script src="js/qgis2web_expressions.js"></script>
+                <script src="./mapbox/mapbox-gl.js"></script>
+                <script src="js/leaflet.markercluster.js"></script>
+                <script src="js/leaflet-search.js"></script>
+                <script src="data/Administrative_LGAs_Original_1.js"></script>
+                <script src="data/Proposed_System_Naming5K_2.js"></script>
+                <script src="data/Proposed_Junctions_3.js"></script>
+                <script src="data/Proposed_Dikes_4.js"></script>
+                <script src="data/Proposed_Channels_Priority_Works_5.js"></script>
+                <script src="./mapbox/style.js"></script>
+                <script src="./js/Autolinker.min.js"></script>
+                <script>
+                    var map = new mapboxgl.Map({
+                        container: 'map',
+                        style: styleJSON,
+                        center: [3.9446151386816406, 7.350353667550082],
+                        zoom: 9,
+                        bearing: 360.0,
+                        attributionControl: false
+                    });
+                    map.addControl(new mapboxgl.NavigationControl(), 'top-left');
+                    map.addControl(new mapboxgl.AttributionControl({
+                        customAttribution: '<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://github.com/mapbox/mapbox-gl-js" target="_blank">Mapbox GL JS</a> &middot; <a href="https://qgis.org" target="_blank">QGIS</a>',
+                        compact: false
+                    }));
+
+                    map.on('click', 'lyr_Administrative_LGAs_Original_1_0', function (e) {
+                        var description = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['OBJECTID'] !== null ? Autolinker.link(e.features[0].properties['OBJECTID'].toLocaleString(), { truncate: { length: 30, location: 'smart' } }) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Name</th>\
+                        <td>' + (e.features[0].properties['Name'] !== null ? Autolinker.link(e.features[0].properties['Name'].toLocaleString(), { truncate: { length: 30, location: 'smart' } }) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['Shape_Length'] !== null ? Autolinker.link(e.features[0].properties['Shape_Length'].toLocaleString(), { truncate: { length: 30, location: 'smart' } }) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['Shape_Area'] !== null ? Autolinker.link(e.features[0].properties['Shape_Area'].toLocaleString(), { truncate: { length: 30, location: 'smart' } }) : '') + '</td>\
+                    </tr>\
+                </table>'
+
+                        new mapboxgl.Popup()
+                            .setLngLat(e.lngLat)
+                            .setHTML(description)
+                            .addTo(map);
+                    });
+
+                    // Change the cursor to a pointer when the mouse is over the places layer.
+                    map.on('mouseenter', 'lyr_Administrative_LGAs_Original_1_0', function () {
+                        map.getCanvas().style.cursor = 'pointer';
+                    });
+
+                    // Change it back to a pointer when it leaves.
+                    map.on('mouseleave', 'lyr_Administrative_LGAs_Original_1_0', function () {
+                        map.getCanvas().style.cursor = '';
+                    });
+                    map.on('click', 'lyr_Proposed_System_Naming5K_2_0', function (e) {
+                        var description = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['OBJECTID'] !== null ? Autolinker.link(e.features[0].properties['OBJECTID'].toLocaleString(), { truncate: { length: 30, location: 'smart' } }) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['System'] !== null ? Autolinker.link(e.features[0].properties['System'].toLocaleString(), { truncate: { length: 30, location: 'smart' } }) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['Name'] !== null ? Autolinker.link(e.features[0].properties['Name'].toLocaleString(), { truncate: { length: 30, location: 'smart' } }) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['Index'] !== null ? Autolinker.link(e.features[0].properties['Index'].toLocaleString(), { truncate: { length: 30, location: 'smart' } }) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['Length_km'] !== null ? Autolinker.link(e.features[0].properties['Length_km'].toLocaleString(), { truncate: { length: 30, location: 'smart' } }) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['Shape_Length'] !== null ? Autolinker.link(e.features[0].properties['Shape_Length'].toLocaleString(), { truncate: { length: 30, location: 'smart' } }) : '') + '</td>\
+                    </tr>\
+                </table>'
+
+                        new mapboxgl.Popup()
+                            .setLngLat(e.lngLat)
+                            .setHTML(description)
+                            .addTo(map);
+                    });
+
+                    // Change the cursor to a pointer when the mouse is over the places layer.
+                    map.on('mouseenter', 'lyr_Proposed_System_Naming5K_2_0', function () {
+                        map.getCanvas().style.cursor = 'pointer';
+                    });
+
+                    // Change it back to a pointer when it leaves.
+                    map.on('mouseleave', 'lyr_Proposed_System_Naming5K_2_0', function () {
+                        map.getCanvas().style.cursor = '';
+                    });
+                    map.on('click', 'lyr_Proposed_Junctions_3_0', function (e) {
+                        var description = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['OBJECTID'] !== null ? Autolinker.link(e.features[0].properties['OBJECTID'].toLocaleString(), { truncate: { length: 30, location: 'smart' } }) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['Id'] !== null ? Autolinker.link(e.features[0].properties['Id'].toLocaleString(), { truncate: { length: 30, location: 'smart' } }) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['Junction'] !== null ? Autolinker.link(e.features[0].properties['Junction'].toLocaleString(), { truncate: { length: 30, location: 'smart' } }) : '') + '</td>\
+                    </tr>\
+                </table>'
+
+                        new mapboxgl.Popup()
+                            .setLngLat(e.lngLat)
+                            .setHTML(description)
+                            .addTo(map);
+                    });
+
+                    // Change the cursor to a pointer when the mouse is over the places layer.
+                    map.on('mouseenter', 'lyr_Proposed_Junctions_3_0', function () {
+                        map.getCanvas().style.cursor = 'pointer';
+                    });
+
+                    // Change it back to a pointer when it leaves.
+                    map.on('mouseleave', 'lyr_Proposed_Junctions_3_0', function () {
+                        map.getCanvas().style.cursor = '';
+                    });
+                    map.on('click', 'lyr_Proposed_Dikes_4_0', function (e) {
+                        var description = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['OBJECTID'] !== null ? Autolinker.link(e.features[0].properties['OBJECTID'].toLocaleString(), { truncate: { length: 30, location: 'smart' } }) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['Length_m'] !== null ? Autolinker.link(e.features[0].properties['Length_m'].toLocaleString(), { truncate: { length: 30, location: 'smart' } }) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['Shape_Length'] !== null ? Autolinker.link(e.features[0].properties['Shape_Length'].toLocaleString(), { truncate: { length: 30, location: 'smart' } }) : '') + '</td>\
+                    </tr>\
+                </table>'
+
+                        new mapboxgl.Popup()
+                            .setLngLat(e.lngLat)
+                            .setHTML(description)
+                            .addTo(map);
+                    });
+
+                    // Change the cursor to a pointer when the mouse is over the places layer.
+                    map.on('mouseenter', 'lyr_Proposed_Dikes_4_0', function () {
+                        map.getCanvas().style.cursor = 'pointer';
+                    });
+
+                    // Change it back to a pointer when it leaves.
+                    map.on('mouseleave', 'lyr_Proposed_Dikes_4_0', function () {
+                        map.getCanvas().style.cursor = '';
+                    });
+                    map.on('click', 'lyr_Proposed_Channels_Priority_Works_5_0', function (e) {
+                        var description = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['OBJECTID'] !== null ? Autolinker.link(e.features[0].properties['OBJECTID'].toLocaleString(), { truncate: { length: 30, location: 'smart' } }) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['Name'] !== null ? Autolinker.link(e.features[0].properties['Name'].toLocaleString(), { truncate: { length: 30, location: 'smart' } }) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['Basin'] !== null ? Autolinker.link(e.features[0].properties['Basin'].toLocaleString(), { truncate: { length: 30, location: 'smart' } }) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['Shape_Length'] !== null ? Autolinker.link(e.features[0].properties['Shape_Length'].toLocaleString(), { truncate: { length: 30, location: 'smart' } }) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (e.features[0].properties['Shape_Area'] !== null ? Autolinker.link(e.features[0].properties['Shape_Area'].toLocaleString(), { truncate: { length: 30, location: 'smart' } }) : '') + '</td>\
+                    </tr>\
+                </table>'
+
+                        new mapboxgl.Popup()
+                            .setLngLat(e.lngLat)
+                            .setHTML(description)
+                            .addTo(map);
+                    });
+
+                    // Change the cursor to a pointer when the mouse is over the places layer.
+                    map.on('mouseenter', 'lyr_Proposed_Channels_Priority_Works_5_0', function () {
+                        map.getCanvas().style.cursor = 'pointer';
+                    });
+
+                    // Change it back to a pointer when it leaves.
+                    map.on('mouseleave', 'lyr_Proposed_Channels_Priority_Works_5_0', function () {
+                        map.getCanvas().style.cursor = '';
+                    });
+                    var toggleableLayerIds = ['lyr_GoogleSatellite_0_0', 'Google Satellite', 'lyr_Administrative_LGAs_Original_1_0', 'Administrative_LGAs_Original', 'lyr_Proposed_System_Naming5K_2_0', 'Proposed_System_Naming5K', 'lyr_Proposed_Junctions_3_0', 'Proposed_Junctions', 'lyr_Proposed_Dikes_4_0', 'Proposed_Dikes', 'lyr_Proposed_Channels_Priority_Works_5_0', 'Proposed_Channels_Priority_Works'];
+
+                    for (var i = 0; i < toggleableLayerIds.length; i = i + 2) {
+                        var id = toggleableLayerIds[i];
+                        var layerName = toggleableLayerIds[i + 1]
+
+                        var link = document.createElement('a');
+                        link.href = '#';
+                        link.className = 'active';
+                        link.layer = id;
+                        link.textContent = layerName;
+
+                        link.onclick = function (e) {
+                            var clickedLayer = this.layer;
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+
+                            if (typeof visibility === 'undefined' || visibility == 'visible') {
+                                map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+                                this.className = '';
+                            } else {
+                                this.className = 'active';
+                                map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+                            }
+                        };
+
+                        var layers = document.getElementById('menu');
+                        layers.appendChild(link);
+                    }</script>
+
+            <!-- </div> -->
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

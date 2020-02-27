@@ -47,5 +47,9 @@ app.get('/summary', (req, res) => {
     res.render('summary')
 })
 
+app.get('/intervention', (req, res) => {
+    res.sendFile('intervention.html')
+})
+
 
 exports.app = functions.https.onRequest(app);
